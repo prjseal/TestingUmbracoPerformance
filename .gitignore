@@ -1,0 +1,14 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/packages
+/TUP.Core/bin/Debug
+/TUP.Core/obj/Debug
+/TUP.Web/App_Data/cache
+/TUP.Web/App_Data/Logs
+/TUP.Web/App_Data/TEMP
+/TUP.Web/bin
+/TUP.Web/obj/Debug
+/TUP.Web/Umbraco

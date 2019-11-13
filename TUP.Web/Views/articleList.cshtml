@@ -1,0 +1,64 @@
+﻿@inherits TUP.Core.ViewPages.TUPViewPage<ArticleList>
+@using Clean.Core.ViewModels
+@using Examine.Search
+@using Umbraco.Core.Composing
+@using Umbraco.Examine
+@{
+    Layout = "master.cshtml";
+
+    var iterations = 1000;
+
+    IEnumerable<ISearchResult> examineResults = null;
+    IEnumerable<IPublishedContent> xpathResults = null;
+    IEnumerable<IPublishedContent> descendantsResults = null;
+
+    using (Current.Profiler.Step("Get Articles Using Examine"))
+    {
+        for (var i = 0; i < iterations; i++)
+        {
+            examineResults = ArticleService.GetLatestArticlesUsingExamine(Model);
+        }
+    }
+
+    using (Current.Profiler.Step("Get Articles Using XPath"))
+    {
+        for (var i = 0; i < iterations; i++)
+        {
+            xpathResults = ArticleService.GetLatestArticlesUsingXPath(Model);
+        }
+    }
+
+    using (Current.Profiler.Step("Get Articles Using Descendants"))
+    {
+        for (var i = 0; i < iterations; i++)
+        {
+            descendantsResults = ArticleService.GetLatestArticlesUsingDescendants(Model);
+        }
+    }
+}
+
+@Html.Partial("~/Views/Partials/pageHeader.cshtml", new PageHeaderViewModel(Model.Name, Model.Title, Model.Subtitle, Model.MainImage))
+
+<h2>Examine Results:</h2>
+<ol>
+    @foreach (var item in examineResults)
+    {
+        <li>@item.Id</li>
+    }
+</ol>
+
+<h2>XPath Results:</h2>
+<ol>
+    @foreach (var item in xpathResults)
+    {
+        <li>@item.Id</li>
+    }
+</ol>
+
+<h2>Descendants Results:</h2>
+<ol>
+    @foreach (var item in descendantsResults)
+    {
+        <li>@item.Id</li>
+    }
+</ol>
