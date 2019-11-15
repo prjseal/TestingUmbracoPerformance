@@ -6,17 +6,26 @@
 @{
     Layout = "master.cshtml";
 
-    var iterations = 1000;
+    var iterations = 1;
 
-    IEnumerable<ISearchResult> examineResults = null;
+    IEnumerable<ISearchResult> examineHelperResults = null;
+    IEnumerable<ISearchResult> examineRawResults = null;
     IEnumerable<IPublishedContent> xpathResults = null;
     IEnumerable<IPublishedContent> descendantsResults = null;
 
-    using (Current.Profiler.Step("Get Articles Using Examine"))
+    using (Current.Profiler.Step("Get Articles Using Examine Helper"))
     {
         for (var i = 0; i < iterations; i++)
         {
-            examineResults = ArticleService.GetLatestArticlesUsingExamine(Model);
+            examineHelperResults = ArticleService.GetLatestArticlesUsingExamineHelper();
+        }
+    }
+
+    using (Current.Profiler.Step("Get Articles Using Examine Raw"))
+    {
+        for (var i = 0; i < iterations; i++)
+        {
+            examineRawResults = ArticleService.GetLatestArticlesUsingExamineRaw();
         }
     }
 
@@ -39,9 +48,17 @@
 
 @Html.Partial("~/Views/Partials/pageHeader.cshtml", new PageHeaderViewModel(Model.Name, Model.Title, Model.Subtitle, Model.MainImage))
 
-<h2>Examine Results:</h2>
+<h2>Examine Helper Results:</h2>
 <ol>
-    @foreach (var item in examineResults)
+    @foreach (var item in examineHelperResults)
+    {
+        <li>@item.Id</li>
+    }
+</ol>
+
+<h2>Examine Raw Results:</h2>
+<ol>
+    @foreach (var item in examineRawResults)
     {
         <li>@item.Id</li>
     }

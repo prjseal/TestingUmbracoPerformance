@@ -8,11 +8,11 @@
     Layout = "master.cshtml";
 }
 
-@*<h1>Custom Import Code</h1>
+<h1>Custom Import Code</h1>
 
-@{
+@*@{
     var contentService = Current.Services.ContentService;
-    for (var i = 0; i < 2; i++)
+    for (var i = 0; i < 1; i++)
     {
         var children = contentService.GetPagedChildren(1095, 0, 10000, out var totalRecords);
         foreach (var child in children)

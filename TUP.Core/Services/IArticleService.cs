@@ -6,7 +6,9 @@ namespace TUP.Core.Services
 {
     public interface IArticleService
     {
-        IEnumerable<ISearchResult> GetLatestArticlesUsingExamine(IPublishedContent currentContentItem);
+        IEnumerable<ISearchResult> GetLatestArticlesUsingExamineHelper();
+
+        IEnumerable<ISearchResult> GetLatestArticlesUsingExamineRaw();
 
         IEnumerable<IPublishedContent> GetLatestArticlesUsingXPath(IPublishedContent currentContentItem);
 
