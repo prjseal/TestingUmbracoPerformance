@@ -9,6 +9,7 @@ namespace TowergatePlatform.Core.Composing
         public void Compose(Umbraco.Core.Composing.Composition composition)
         {
             composition.Register<IArticleService, ArticleService>(Lifetime.Request);
+            composition.Register<IBenchmarkService, BenchmarkService>(Lifetime.Request);
         }
     }
 }

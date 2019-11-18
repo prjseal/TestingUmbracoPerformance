@@ -6,49 +6,126 @@
 @{
     Layout = "master.cshtml";
 
-    var iterations = 1;
+    //var iterations = 1;
 
-    IEnumerable<ISearchResult> examineHelperResults = null;
-    IEnumerable<ISearchResult> examineRawResults = null;
-    IEnumerable<IPublishedContent> xpathResults = null;
-    IEnumerable<IPublishedContent> descendantsResults = null;
+    //IEnumerable<ISearchResult> examineHelperResults = null;
+    //IEnumerable<ISearchResult> examineRawResults = null;
+    //IEnumerable<IPublishedContent> xpathResults = null;
+    //IEnumerable<IPublishedContent> descendantsResults = null;
 
-    using (Current.Profiler.Step("Get Articles Using Examine Helper"))
-    {
-        for (var i = 0; i < iterations; i++)
-        {
-            examineHelperResults = ArticleService.GetLatestArticlesUsingExamineHelper();
-        }
-    }
+    //using (Current.Profiler.Step("Get Articles Using Examine Helper"))
+    //{
+    //    for (var i = 0; i < iterations; i++)
+    //    {
+    //        examineHelperResults = ArticleService.GetLatestArticlesUsingExamineHelper();
+    //    }
+    //}
 
-    using (Current.Profiler.Step("Get Articles Using Examine Raw"))
-    {
-        for (var i = 0; i < iterations; i++)
-        {
-            examineRawResults = ArticleService.GetLatestArticlesUsingExamineRaw();
-        }
-    }
+    //using (Current.Profiler.Step("Get Articles Using Examine Raw"))
+    //{
+    //    for (var i = 0; i < iterations; i++)
+    //    {
+    //        examineRawResults = ArticleService.GetLatestArticlesUsingExamineRaw();
+    //    }
+    //}
 
-    using (Current.Profiler.Step("Get Articles Using XPath"))
-    {
-        for (var i = 0; i < iterations; i++)
-        {
-            xpathResults = ArticleService.GetLatestArticlesUsingXPath(Model);
-        }
-    }
+    //using (Current.Profiler.Step("Get Articles Using XPath"))
+    //{
+    //    for (var i = 0; i < iterations; i++)
+    //    {
+    //        xpathResults = ArticleService.GetLatestArticlesUsingXPath(Model);
+    //    }
+    //}
 
-    using (Current.Profiler.Step("Get Articles Using Descendants"))
-    {
-        for (var i = 0; i < iterations; i++)
-        {
-            descendantsResults = ArticleService.GetLatestArticlesUsingDescendants(Model);
-        }
-    }
+    //using (Current.Profiler.Step("Get Articles Using Descendants"))
+    //{
+    //    for (var i = 0; i < iterations; i++)
+    //    {
+    //        descendantsResults = ArticleService.GetLatestArticlesUsingDescendants(Model);
+    //    }
+    //}
 }
 
 @Html.Partial("~/Views/Partials/pageHeader.cshtml", new PageHeaderViewModel(Model.Name, Model.Title, Model.Subtitle, Model.MainImage))
 
-<h2>Examine Helper Results:</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th>Without Looping</th>
+        <th>Bad Linq</th>
+        <th>XPath Greedy</th>
+        <th>XPath Efficient</th>
+        <th>Pure Examine</th>
+        <th>Typed Examine</th>
+    </tr>
+    </thead>
+    <tr>
+        <th>Get All</th>
+        <th>@Html.Action("AllByBadLinq", "Benchmark")</th>
+        <th>@Html.Action("AllByXpathGreedy", "Benchmark")</th>
+        <th>@Html.Action("AllByXpathEfficient", "Benchmark")</th>
+        <th>@Html.Action("AllByPureExamine", "Benchmark")</th>
+        <th>@Html.Action("AllByTypedExamine", "Benchmark")</th>
+    </tr>
+    <tr>
+        <th>Latest</th>
+        <th>@Html.Action("GetLatestBadLinq", "Benchmark")</th>
+        <th>@Html.Action("LatestByXpathGreedy", "Benchmark")</th>
+        <th>@Html.Action("LatestByXpathEfficient", "Benchmark")</th>
+        <th>@Html.Action("LatestByPureExamine", "Benchmark")</th>
+        <th>@Html.Action("LatestByTypedExamine", "Benchmark")</th>
+    </tr>
+    <tr>
+        <th>Search</th>
+        <th>@Html.Action("SearchWithLinq", "Benchmark")</th>
+        <th>@Html.Action("SearchWitXsltGreedy", "Benchmark")</th>
+        <th>@Html.Action("SearchWitXsltEfficient", "Benchmark")</th>
+        <th>@Html.Action("SearchWithPureExamine", "Benchmark")</th>
+        <th>@Html.Action("SearchWithPureExamineGetContent", "Benchmark")</th>
+    </tr>
+</table>
+
+
+<table>
+    <thead>
+    <tr>
+        <th>With Looping</th>
+        <th>Bad Linq</th>
+        <th>XPath Greedy</th>
+        <th>XPath Efficient</th>
+        <th>Pure Examine</th>
+        <th>Typed Examine</th>
+    </tr>
+    </thead>
+    <tr>
+        <th>Get All</th>
+        <th>@Html.Action("AllByBadLinq", "Benchmark", new { loop = true})</th>
+        <th>@Html.Action("AllByXpathGreedy", "Benchmark", new { loop = true })</th>
+        <th>@Html.Action("AllByXpathEfficient", "Benchmark", new { loop = true })</th>
+        <th>@Html.Action("AllByPureExamine", "Benchmark", new { loop = true })</th>
+        <th>@Html.Action("AllByTypedExamine", "Benchmark", new { loop = true })</th>
+    </tr>
+    <tr>
+        <th>Latest</th>
+        <th>@Html.Action("GetLatestBadLinq", "Benchmark", new { loop = true })</th>
+        <th>@Html.Action("LatestByXpathGreedy", "Benchmark", new { loop = true })</th>
+        <th>@Html.Action("LatestByXpathEfficient", "Benchmark", new { loop = true })</th>
+        <th>@Html.Action("LatestByPureExamine", "Benchmark", new { loop = true })</th>
+        <th>@Html.Action("LatestByTypedExamine", "Benchmark", new { loop = true })</th>
+    </tr>
+    <tr>
+        <th>Search</th>
+        <th>@Html.Action("SearchWithLinq", "Benchmark", new { loop = true })</th>
+        <th>@Html.Action("SearchWitXsltGreedy", "Benchmark", new { loop = true })</th>
+        <th>@Html.Action("SearchWitXsltEfficient", "Benchmark", new { loop = true })</th>
+        <th>@Html.Action("SearchWithPureExamine", "Benchmark", new { loop = true })</th>
+        <th>@Html.Action("SearchWithPureExamineGetContent", "Benchmark", new { loop = true })</th>
+    </tr>
+</table>
+
+
+@*<h2>Examine Helper Results:</h2>
 <ol>
     @foreach (var item in examineHelperResults)
     {
@@ -78,4 +155,4 @@
     {
         <li>@item.Id</li>
     }
-</ol>
+</ol>*@

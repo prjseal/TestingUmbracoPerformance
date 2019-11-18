@@ -472,3 +472,11 @@ h2 a:after {
 h2 a:after:hover {
     text-decoration: none;
 }
+
+table {
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
