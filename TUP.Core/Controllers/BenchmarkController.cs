@@ -17,58 +17,37 @@ namespace TUP.Core.Controllers
 
         #region all posts
 
-        public ActionResult AllByBadLinq(bool loop = false)
+        public ActionResult AllLinq(bool loop = false)
         {
-            var result = GetTime(() => _benchmarkService.GetByBadLinq(loop));
+            var result = GetTime(() => _benchmarkService.GetAllLinq(loop));
 
             return Content(result);
         }
 
-        public ActionResult AllChildrenFromNode(bool loop = false)
-        {
-            var result = GetTime(() => _benchmarkService.GetAllChildren(loop));
-
-            return Content(result);
-        }
-
-        public ActionResult AllDescendantsFromRoot(bool loop = false)
-        {
-            var result = GetTime(() => _benchmarkService.GetAllDescendants(loop));
-
-            return Content(result);
-        }
-
-        public ActionResult AllByXpathGreedy(bool loop = false)
+        public ActionResult AllXPathGreedy(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetAllXPathGreedy(loop));
 
             return Content(result);
         }
 
-        public ActionResult AllByXpathEfficient(bool loop = false)
+        public ActionResult AllXPathEfficient(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetAllXPathEfficient(loop));
 
             return Content(result);
         }
 
-        public ActionResult AllByTypedExamine(bool loop = false)
+        public ActionResult AllTypedExamine(bool loop = false)
         {
-            var result = GetTime(() => _benchmarkService.GetTypedExamine(loop));
+            var result = GetTime(() => _benchmarkService.GetAllTypedExamine(loop));
 
             return Content(result);
         }
 
-        public ActionResult AllByPureExamine(bool loop = false)
+        public ActionResult AllPureExamine(bool loop = false)
         {
-            var result = GetTime(() => _benchmarkService.GetPureExamine(loop));
-
-            return Content(result);
-        }
-
-        public ActionResult AllByContentService(bool loop = false)
-        {
-            var result = GetTime(() => _benchmarkService.GetByContentService(loop));
+            var result = GetTime(() => _benchmarkService.GetAllPureExamine(loop));
 
             return Content(result);
         }
@@ -77,49 +56,35 @@ namespace TUP.Core.Controllers
 
         #region latest ten posts
 
-        public ActionResult GetLatestBadLinq(bool loop = false)
+        public ActionResult LatestLinq(bool loop = false)
         {
-            var result = GetTime(() => _benchmarkService.LatestBadLinq(loop));
+            var result = GetTime(() => _benchmarkService.GetLatestLinq(loop));
 
             return Content(result);
         }
 
-        public ActionResult GetLatestChildrenFromNode(bool loop = false)
-        {
-            var result = GetTime(() => _benchmarkService.LatestChildrenFromNode(loop));
-
-            return Content(result);
-        }
-
-        public ActionResult LatestDescendantsFromRoot(bool loop = false)
-        {
-            var result = GetTime(() => _benchmarkService.GetLatestDescendants(loop));
-
-            return Content(result);
-        }
-
-        public ActionResult LatestByXpathGreedy(bool loop = false)
+        public ActionResult LatestXPathGreedy(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetLatestXPathGreedy(loop));
 
             return Content(result);
         }
 
-        public ActionResult LatestByXpathEfficient(bool loop = false)
+        public ActionResult LatestXPathEfficient(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetLatestXPathEfficient(loop));
 
             return Content(result);
         }
 
-        public ActionResult LatestByTypedExamine(bool loop = false)
+        public ActionResult LatestTypedExamine(bool loop = false)
         {
-            var result = GetTime(() => _benchmarkService.LatestTypedExamine(loop));
+            var result = GetTime(() => _benchmarkService.GetLatestTypedExamine(loop));
 
             return Content(result);
         }
 
-        public ActionResult LatestByPureExamine(bool loop = false)
+        public ActionResult LatestPureExamine(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetLatestPureExamine(loop));
 
@@ -130,56 +95,47 @@ namespace TUP.Core.Controllers
 
         #region searches
 
-        public ActionResult SearchWithLinq(bool loop = false)
+        public ActionResult SearchLinq(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetSearchLinq(loop));
 
             return Content(result);
         }
 
-        public ActionResult SearchWitXsltGreedy(bool loop = false)
+        public ActionResult SearchXPathGreedy(bool loop = false)
         {
-            var result = GetTime(() => _benchmarkService.GetSearchXsltGreedy(loop));
+            var result = GetTime(() => _benchmarkService.GetSearchXPathGreedy(loop));
 
             return Content(result);
         }
 
-        public ActionResult SearchWitXsltEfficient(bool loop = false)
+        public ActionResult SearchXPathEfficient(bool loop = false)
         {
-            var result = GetTime(() => _benchmarkService.GetSearchXsltEfficient(loop));
+            var result = GetTime(() => _benchmarkService.GetSearchXPathEfficient(loop));
 
             return Content(result);
         }
 
-        public ActionResult SearchWithTypedExamine(bool loop = false)
+        public ActionResult SearchTypedExamine(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetSearchTypedExamine(loop));
 
             return Content(result);
         }
 
-        public ActionResult SearchWithPureExamine(bool loop = false)
+        public ActionResult SearchPureExamine(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetSearchPureExamine(loop));
 
             return Content(result);
         }
 
-       public ActionResult SearchWithPureExamineGetContent(bool loop = false)
-        {
-            var result = GetTime(() => _benchmarkService.GetSearchTypedExamine(loop));
-
-            return Content(result);
-        }
-
-        
         #endregion
-
 
         private string GetTime(Action action)
         {
             double total = 0;
-            int iterations = 10;
+            int iterations = 100;
 
             for (int i = 0; i < iterations; i++)
             {
@@ -193,5 +149,27 @@ namespace TUP.Core.Controllers
 
             return (total / iterations).ToString("F4");
         }
+
+        //public ActionResult AllChildrenFromNode(bool loop = false)
+        //{
+        //    var result = GetTime(() => _benchmarkService.GetAllChildren(loop));
+
+        //    return Content(result);
+        //}
+
+        //public ActionResult AllByContentService(bool loop = false)
+        //{
+        //    var result = GetTime(() => _benchmarkService.GetByContentService(loop));
+
+        //    return Content(result);
+        //}
+
+
+        //public ActionResult GetLatestChildrenFromNode(bool loop = false)
+        //{
+        //    var result = GetTime(() => _benchmarkService.LatestChildrenFromNode(loop));
+
+        //    return Content(result);
+        //}
     }
 }

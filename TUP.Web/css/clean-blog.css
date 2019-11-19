@@ -480,3 +480,7 @@ table {
 table, th, td {
     border: 1px solid black;
 }
+
+table tr td {
+    text-align: right;
+}

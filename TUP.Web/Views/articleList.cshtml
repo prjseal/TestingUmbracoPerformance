@@ -8,6 +8,25 @@
 
     //var iterations = 1;
 
+    List<IPublishedContent> allLinqResults = BenchmarkService.GetAllLinq().ToList();
+    List<IPublishedContent> allXPathGreedyResults = BenchmarkService.GetAllXPathGreedy().ToList();
+    List<IPublishedContent> allXPathEfficientResults = BenchmarkService.GetAllXPathEfficient().ToList();
+    List<ISearchResult> allPureExamineResults = BenchmarkService.GetAllPureExamine().ToList();
+    List<IPublishedContent> allTypedExamineResults = BenchmarkService.GetAllTypedExamine().ToList();
+
+    List<IPublishedContent> latestLinqResults = BenchmarkService.GetLatestLinq().ToList();
+    List<IPublishedContent> latestXPathGreedyResults = BenchmarkService.GetLatestXPathGreedy().ToList();
+    List<IPublishedContent> latestXPathEfficientResults = BenchmarkService.GetLatestXPathEfficient().ToList();
+    List<ISearchResult> latestPureExamineResults = BenchmarkService.GetLatestPureExamine().ToList();
+    List<IPublishedContent> latestTypedExamineResults = BenchmarkService.GetLatestTypedExamine().ToList();
+
+    List<IPublishedContent> searchLinqResults = BenchmarkService.GetSearchLinq().ToList();
+    List<IPublishedContent> searchXPathGreedyResults = BenchmarkService.GetSearchXPathGreedy().ToList();
+    List<IPublishedContent> searchXPathEfficientResults = BenchmarkService.GetSearchXPathEfficient().ToList();
+    List<ISearchResult> searchPureExamineResults = BenchmarkService.GetSearchPureExamine().ToList();
+    List<IPublishedContent> searchTypedExamineResults = BenchmarkService.GetSearchTypedExamine().ToList();
+
+
     //IEnumerable<ISearchResult> examineHelperResults = null;
     //IEnumerable<ISearchResult> examineRawResults = null;
     //IEnumerable<IPublishedContent> xpathResults = null;
@@ -51,108 +70,248 @@
 
 <table>
     <thead>
+        <tr>
+            <th colspan="6">Without Looping</th>
+        </tr>
+        <tr>
+            <th>&nbsp;</th>
+            <th>Bad Linq</th>
+            <th>XPath Greedy</th>
+            <th>XPath Efficient</th>
+            <th>Pure Examine</th>
+            <th>Typed Examine</th>
+        </tr>
+    </thead>
     <tr>
-        <th>Without Looping</th>
+        <td>Get All</td>
+        <td>@Html.Action("AllLinq", "Benchmark")</td>
+        <td>@Html.Action("AllXPathGreedy", "Benchmark")</td>
+        <td>@Html.Action("AllXPathEfficient", "Benchmark")</td>
+        <td>@Html.Action("AllPureExamine", "Benchmark")</td>
+        <td>@Html.Action("AllTypedExamine", "Benchmark")</td>
+    </tr>
+    <tr>
+        <td>Latest</td>
+        <td>@Html.Action("LatestLinq", "Benchmark")</td>
+        <td>@Html.Action("LatestXPathGreedy", "Benchmark")</td>
+        <td>@Html.Action("LatestXPathEfficient", "Benchmark")</td>
+        <td>@Html.Action("LatestPureExamine", "Benchmark")</td>
+        <td>@Html.Action("LatestTypedExamine", "Benchmark")</td>
+    </tr>
+    <tr>
+        <td>Search</td>
+        <td>@Html.Action("SearchLinq", "Benchmark")</td>
+        <td>@Html.Action("SearchXPathGreedy", "Benchmark")</td>
+        <td>@Html.Action("SearchXPathEfficient", "Benchmark")</td>
+        <td>@Html.Action("SearchPureExamine", "Benchmark")</td>
+        <td>@Html.Action("SearchTypedExamine", "Benchmark")</td>
+    </tr>
+    <tr>
+        <th colspan="6">With Looping</th>
+    </tr>
+    <tr>
+        <th>&nbsp;</th>
         <th>Bad Linq</th>
         <th>XPath Greedy</th>
         <th>XPath Efficient</th>
         <th>Pure Examine</th>
         <th>Typed Examine</th>
     </tr>
-    </thead>
     <tr>
-        <th>Get All</th>
-        <th>@Html.Action("AllByBadLinq", "Benchmark")</th>
-        <th>@Html.Action("AllByXpathGreedy", "Benchmark")</th>
-        <th>@Html.Action("AllByXpathEfficient", "Benchmark")</th>
-        <th>@Html.Action("AllByPureExamine", "Benchmark")</th>
-        <th>@Html.Action("AllByTypedExamine", "Benchmark")</th>
+        <td>Get All</td>
+        <td>@Html.Action("AllLinq", "Benchmark", new { loop = true })</td>
+        <td>@Html.Action("AllXPathGreedy", "Benchmark", new { loop = true })</td>
+        <td>@Html.Action("AllXPathEfficient", "Benchmark", new { loop = true })</td>
+        <td>@Html.Action("AllPureExamine", "Benchmark", new { loop = true })</td>
+        <td>@Html.Action("AllTypedExamine", "Benchmark", new { loop = true })</td>
     </tr>
     <tr>
-        <th>Latest</th>
-        <th>@Html.Action("GetLatestBadLinq", "Benchmark")</th>
-        <th>@Html.Action("LatestByXpathGreedy", "Benchmark")</th>
-        <th>@Html.Action("LatestByXpathEfficient", "Benchmark")</th>
-        <th>@Html.Action("LatestByPureExamine", "Benchmark")</th>
-        <th>@Html.Action("LatestByTypedExamine", "Benchmark")</th>
+        <td>Latest</td>
+        <td>@Html.Action("LatestLinq", "Benchmark", new { loop = true })</td>
+        <td>@Html.Action("LatestXPathGreedy", "Benchmark", new { loop = true })</td>
+        <td>@Html.Action("LatestXPathEfficient", "Benchmark", new { loop = true })</td>
+        <td>@Html.Action("LatestPureExamine", "Benchmark", new { loop = true })</td>
+        <td>@Html.Action("LatestTypedExamine", "Benchmark", new { loop = true })</td>
     </tr>
     <tr>
-        <th>Search</th>
-        <th>@Html.Action("SearchWithLinq", "Benchmark")</th>
-        <th>@Html.Action("SearchWitXsltGreedy", "Benchmark")</th>
-        <th>@Html.Action("SearchWitXsltEfficient", "Benchmark")</th>
-        <th>@Html.Action("SearchWithPureExamine", "Benchmark")</th>
-        <th>@Html.Action("SearchWithPureExamineGetContent", "Benchmark")</th>
+        <td>Search</td>
+        <td>@Html.Action("SearchLinq", "Benchmark", new { loop = true })</td>
+        <td>@Html.Action("SearchXPathGreedy", "Benchmark", new { loop = true })</td>
+        <td>@Html.Action("SearchXPathEfficient", "Benchmark", new { loop = true })</td>
+        <td>@Html.Action("SearchPureExamine", "Benchmark", new { loop = true })</td>
+        <td>@Html.Action("SearchTypedExamine", "Benchmark", new { loop = true })</td>
     </tr>
 </table>
 
+<h2>All Linq @allLinqResults.Count()</h2>
+<ol>
+    @foreach (var item in allLinqResults.Take(10))
+    {
+        <li>@item.Id</li>
+    }
+</ol>
 
-<table>
-    <thead>
-    <tr>
-        <th>With Looping</th>
-        <th>Bad Linq</th>
-        <th>XPath Greedy</th>
-        <th>XPath Efficient</th>
-        <th>Pure Examine</th>
-        <th>Typed Examine</th>
-    </tr>
-    </thead>
-    <tr>
-        <th>Get All</th>
-        <th>@Html.Action("AllByBadLinq", "Benchmark", new { loop = true})</th>
-        <th>@Html.Action("AllByXpathGreedy", "Benchmark", new { loop = true })</th>
-        <th>@Html.Action("AllByXpathEfficient", "Benchmark", new { loop = true })</th>
-        <th>@Html.Action("AllByPureExamine", "Benchmark", new { loop = true })</th>
-        <th>@Html.Action("AllByTypedExamine", "Benchmark", new { loop = true })</th>
-    </tr>
-    <tr>
-        <th>Latest</th>
-        <th>@Html.Action("GetLatestBadLinq", "Benchmark", new { loop = true })</th>
-        <th>@Html.Action("LatestByXpathGreedy", "Benchmark", new { loop = true })</th>
-        <th>@Html.Action("LatestByXpathEfficient", "Benchmark", new { loop = true })</th>
-        <th>@Html.Action("LatestByPureExamine", "Benchmark", new { loop = true })</th>
-        <th>@Html.Action("LatestByTypedExamine", "Benchmark", new { loop = true })</th>
-    </tr>
-    <tr>
-        <th>Search</th>
-        <th>@Html.Action("SearchWithLinq", "Benchmark", new { loop = true })</th>
-        <th>@Html.Action("SearchWitXsltGreedy", "Benchmark", new { loop = true })</th>
-        <th>@Html.Action("SearchWitXsltEfficient", "Benchmark", new { loop = true })</th>
-        <th>@Html.Action("SearchWithPureExamine", "Benchmark", new { loop = true })</th>
-        <th>@Html.Action("SearchWithPureExamineGetContent", "Benchmark", new { loop = true })</th>
-    </tr>
-</table>
+
+<h2>All XPath Greedy @allXPathGreedyResults.Count()</h2>
+<ol>
+    @foreach (var item in allXPathGreedyResults.Take(10))
+    {
+        <li>@item.Id</li>
+    }
+</ol>
+
+
+<h2>All XPath Efficient @allXPathEfficientResults.Count()</h2>
+<ol>
+    @foreach (var item in allXPathEfficientResults.Take(10))
+    {
+        <li>@item.Id</li>
+    }
+</ol>
+
+
+<h2>All Pure Examine @allPureExamineResults.Count()</h2>
+<ol>
+    @foreach (var item in allPureExamineResults.Take(10))
+    {
+        <li>@item.Id</li>
+    }
+</ol>
+
+
+<h2>All Typed Examine @allTypedExamineResults.Count()</h2>
+<ol>
+    @foreach (var item in allTypedExamineResults.Take(10))
+    {
+        <li>@item.Id</li>
+    }
+</ol>
+
+
+
+<h2>Latest Linq</h2>
+<ol>
+    @foreach (var item in latestLinqResults)
+    {
+        <li>@item.Id</li>
+    }
+</ol>
+
+
+<h2>Latest XPath Greedy</h2>
+<ol>
+    @foreach (var item in latestXPathGreedyResults)
+    {
+        <li>@item.Id</li>
+    }
+</ol>
+
+
+<h2>Latest XPath Efficient</h2>
+<ol>
+    @foreach (var item in latestXPathEfficientResults)
+    {
+        <li>@item.Id</li>
+    }
+</ol>
+
+
+<h2>Latest Pure Examine</h2>
+<ol>
+    @foreach (var item in latestPureExamineResults)
+    {
+        <li>@item.Id</li>
+    }
+</ol>
+
+
+<h2>Latest Typed Examine</h2>
+<ol>
+    @foreach (var item in latestTypedExamineResults)
+    {
+        <li>@item.Id</li>
+    }
+</ol>
+
+
+
+<h2>Search Linq</h2>
+<ol>
+    @foreach (var item in searchLinqResults)
+    {
+        <li>@item.Id @item.Name</li>
+    }
+</ol>
+
+
+<h2>Search XPath Greedy</h2>
+<ol>
+    @foreach (var item in searchXPathGreedyResults)
+    {
+        <li>@item.Id</li>
+    }
+</ol>
+
+
+<h2>Search XPath Efficient</h2>
+<ol>
+    @foreach (var item in searchXPathEfficientResults)
+    {
+        <li>@item.Id</li>
+    }
+</ol>
+
+
+<h2>Search Pure Examine</h2>
+<ol>
+    @foreach (var item in searchPureExamineResults)
+    {
+        <li>@item.Id</li>
+    }
+</ol>
+
+
+<h2>Search Typed Examine</h2>
+<ol>
+    @foreach (var item in searchTypedExamineResults)
+    {
+        <li>@item.Id</li>
+    }
+</ol>
+
+
+
+
 
 
 @*<h2>Examine Helper Results:</h2>
-<ol>
-    @foreach (var item in examineHelperResults)
-    {
-        <li>@item.Id</li>
-    }
-</ol>
+    <ol>
+        @foreach (var item in examineHelperResults)
+        {
+            <li>@item.Id</li>
+        }
+    </ol>
 
-<h2>Examine Raw Results:</h2>
-<ol>
-    @foreach (var item in examineRawResults)
-    {
-        <li>@item.Id</li>
-    }
-</ol>
+    <h2>Examine Raw Results:</h2>
+    <ol>
+        @foreach (var item in examineRawResults)
+        {
+            <li>@item.Id</li>
+        }
+    </ol>
 
-<h2>XPath Results:</h2>
-<ol>
-    @foreach (var item in xpathResults)
-    {
-        <li>@item.Id</li>
-    }
-</ol>
+    <h2>XPath Results:</h2>
+    <ol>
+        @foreach (var item in xpathResults)
+        {
+            <li>@item.Id</li>
+        }
+    </ol>
 
-<h2>Descendants Results:</h2>
-<ol>
-    @foreach (var item in descendantsResults)
-    {
-        <li>@item.Id</li>
-    }
-</ol>*@
+    <h2>Descendants Results:</h2>
+    <ol>
+        @foreach (var item in descendantsResults)
+        {
+            <li>@item.Id</li>
+        }
+    </ol>*@

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Examine;
+using Umbraco.Core.Models.PublishedContent;
 
 namespace TUP.Core.Services
 {
@@ -10,53 +12,43 @@ namespace TUP.Core.Services
     {
         #region all posts
 
-        void GetByBadLinq(bool loop = false);
+        IEnumerable<IPublishedContent> GetAllLinq(bool loop = false);
 
-        void GetAllChildren(bool loop = false);
+        IEnumerable<IPublishedContent> GetAllXPathGreedy(bool loop = false);
 
-        void GetAllDescendants(bool loop = false);
+        IEnumerable<IPublishedContent> GetAllXPathEfficient(bool loop = false);
 
-        void GetAllXPathGreedy(bool loop = false);
+        IEnumerable<IPublishedContent> GetAllTypedExamine(bool loop = false);
 
-        void GetAllXPathEfficient(bool loop = false);
-
-        void GetTypedExamine(bool loop = false);
-
-        void GetPureExamine(bool loop = false);
-
-        void GetByContentService(bool loop = false);
+        IEnumerable<ISearchResult> GetAllPureExamine(bool loop = false);
 
         #endregion
 
         #region latest ten posts
 
-        void LatestBadLinq(bool loop = false);
+        IEnumerable<IPublishedContent> GetLatestLinq(bool loop = false);
 
-        void LatestChildrenFromNode(bool loop = false);
+        IEnumerable<IPublishedContent> GetLatestXPathGreedy(bool loop = false);
 
-        void GetLatestDescendants(bool loop = false);
+        IEnumerable<IPublishedContent> GetLatestXPathEfficient(bool loop = false);
 
-        void GetLatestXPathGreedy(bool loop = false);
+        IEnumerable<IPublishedContent> GetLatestTypedExamine(bool loop = false);
 
-        void GetLatestXPathEfficient(bool loop = false);
-
-        void LatestTypedExamine(bool loop = false);
-
-        void GetLatestPureExamine(bool loop = false);
+        IEnumerable<ISearchResult> GetLatestPureExamine(bool loop = false);
 
         #endregion
 
         #region searches
 
-        void GetSearchLinq(bool loop = false);
+        IEnumerable<IPublishedContent> GetSearchLinq(bool loop = false);
 
-        void GetSearchXsltGreedy(bool loop = false);
+        IEnumerable<IPublishedContent> GetSearchXPathGreedy(bool loop = false);
 
-        void GetSearchXsltEfficient(bool loop = false);
+        IEnumerable<IPublishedContent> GetSearchXPathEfficient(bool loop = false);
 
-        void GetSearchTypedExamine(bool loop = false);
+        IEnumerable<IPublishedContent> GetSearchTypedExamine(bool loop = false);
 
-        void GetSearchPureExamine(bool loop = false);
+        IEnumerable<ISearchResult> GetSearchPureExamine(bool loop = false);
 
         #endregion
     }

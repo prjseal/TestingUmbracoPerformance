@@ -23,325 +23,298 @@ namespace TUP.Core.Services
             _contentService = contentService;
         }
 
-        public void GetByBadLinq(bool loop = false)
+        public IEnumerable<IPublishedContent> GetAllLinq(bool loop = false)
         {
-            var test = _umbracoContextAccessor.UmbracoContext.Content.GetAtRoot().FirstOrDefault()
-                .Descendants()
-                .Where(a => a.ContentType.Alias == "article");
-
-            if (loop == true)
-            {
-                foreach (var item in test)
-                {
-
-                }
-            }
-        }
-
-        public void GetAllChildren(bool loop = false)
-        {
-            var test = _umbracoContextAccessor.UmbracoContext.Content
-                .GetById(false, 1095).Children;
-
-            if (loop == true)
-            {
-                foreach (var item in test)
-                {
-
-                }
-            }
-        }
-
-        public void GetAllDescendants(bool loop = false)
-        {
-            var test = _umbracoContextAccessor.UmbracoContext.Content.GetAtRoot()
+            var results = _umbracoContextAccessor.UmbracoContext.Content.GetAtRoot()
                 .DescendantsOrSelfOfType("article");
 
             if (loop == true)
             {
-                foreach (var item in test)
+                foreach (var item in results)
                 {
 
                 }
             }
+
+            return results;
         }
 
-        public void GetAllXPathGreedy(bool loop = false)
+        public IEnumerable<IPublishedContent> GetAllXPathGreedy(bool loop = false)
         {
-            var test = _umbracoContextAccessor.UmbracoContext.Content.GetByXPath("//article [@isDoc]");
+            var results = _umbracoContextAccessor.UmbracoContext.Content.GetByXPath("//article [@isDoc]");
 
             if (loop == true)
             {
-                foreach (var item in test)
+                foreach (var item in results)
                 {
 
                 }
             }
+
+            return results;
         }
 
-        public void GetAllXPathEfficient(bool loop = false)
+        public IEnumerable<IPublishedContent> GetAllXPathEfficient(bool loop = false)
         {
-            var test = _umbracoContextAccessor.UmbracoContext.Content
+            var results = _umbracoContextAccessor.UmbracoContext.Content
                 .GetByXPath("root/home [@isDoc]/articleList [@isDoc]/article [@isDoc]");
 
             if (loop == true)
             {
-                foreach (var item in test)
+                foreach (var item in results)
                 {
 
                 }
             }
+
+            return results;
         }
 
-        public void GetTypedExamine(bool loop = false)
+        public IEnumerable<IPublishedContent> GetAllTypedExamine(bool loop = false)
         {
             if (ExamineManager.Instance.TryGetIndex("ExternalIndex", out var index))
             {
                 var searcher = index.GetSearcher();
-                var test = searcher.CreateQuery().NodeTypeAlias("article").Execute();
+                var results = searcher.CreateQuery().NodeTypeAlias("article").Execute(8000);
 
                 var items = new List<IPublishedContent>();
-                foreach (var item in test)
+                foreach (var item in results)
                 {
                     items.Add(_umbracoContextAccessor.UmbracoContext.Content.GetById(false, int.Parse(item.Id)));
                 }
+
+                return items;
             }
+
+            return Enumerable.Empty<IPublishedContent>();
         }
 
-        public void GetPureExamine(bool loop = false)
+        public IEnumerable<ISearchResult> GetAllPureExamine(bool loop = false)
         {
             if (ExamineManager.Instance.TryGetIndex("ExternalIndex", out var index))
             {
                 var searcher = index.GetSearcher();
-                var test = searcher.CreateQuery().NodeTypeAlias("article")
-                    .Execute();
+                var results = searcher.CreateQuery().NodeTypeAlias("article")
+                    .Execute(8000);
 
                 if (loop == true)
                 {
-                    foreach (var item in test)
+                    foreach (var item in results)
                     {
 
                     }
                 }
+
+                return results;
             }
+
+            return Enumerable.Empty<ISearchResult>();
         }
 
-        public void GetByContentService(bool loop = false)
-        {
-            var test = _contentService.GetPagedOfType(1082, 0, 10000, out var totalRecords, null);
-
-            if (loop == true)
-            {
-                foreach (var item in test)
-                {
-
-                }
-            }
-        }
+        
 
         #endregion
 
         #region latest ten posts
 
-        public void LatestBadLinq(bool loop = false)
+        public IEnumerable<IPublishedContent> GetLatestLinq(bool loop = false)
         {
-            var test = _umbracoContextAccessor.UmbracoContext.Content.GetAtRoot().FirstOrDefault()
-                .Descendants().Where(a => a.ContentType.Alias == "article")
+            var results = _umbracoContextAccessor.UmbracoContext.Content.GetAtRoot().FirstOrDefault()
+                .DescendantsOrSelfOfType("article")
                 .OrderByDescending(a => a.Value<DateTime>("articleDate")).Take(10);
 
             if (loop == true)
             {
-                foreach (var item in test)
+                foreach (var item in results)
                 {
 
                 }
             }
+
+            return results;
         }
 
-        public void LatestChildrenFromNode(bool loop = false)
+        public IEnumerable<IPublishedContent> GetLatestXPathGreedy(bool loop = false)
         {
-            var test = _umbracoContextAccessor.UmbracoContext.Content.GetById(false, 1095)
-                .Children.OrderByDescending(a => a.Value<DateTime>("articleDate")).Take(10);
-
-            if (loop == true)
-            {
-                foreach (var item in test)
-                {
-
-                }
-            }
-        }
-
-        public void GetLatestDescendants(bool loop = false)
-        {
-            var test = _umbracoContextAccessor.UmbracoContext.Content.GetAtRoot().FirstOrDefault()
-                .Descendants("article")
+            var results = _umbracoContextAccessor.UmbracoContext.Content.GetByXPath("//article [@isDoc]")
                 .OrderByDescending(a => a.Value<DateTime>("articleDate")).Take(10);
 
             if (loop == true)
             {
-                foreach (var item in test)
+                foreach (var item in results)
                 {
 
                 }
             }
+
+            return results;
         }
 
-        public void GetLatestXPathGreedy(bool loop = false)
+        public IEnumerable<IPublishedContent> GetLatestXPathEfficient(bool loop = false)
         {
-            var test = _umbracoContextAccessor.UmbracoContext.Content.GetByXPath("//article [@isDoc]")
-                .OrderByDescending(a => a.Value<DateTime>("articleDate")).Take(10);
-
-            if (loop == true)
-            {
-                foreach (var item in test)
-                {
-
-                }
-            }
-        }
-
-        public void GetLatestXPathEfficient(bool loop = false)
-        {
-            var test = _umbracoContextAccessor.UmbracoContext.Content
+            var results = _umbracoContextAccessor.UmbracoContext.Content
                 .GetByXPath("root/home [@isDoc]/articleList [@isDoc]/article [@isDoc]")
                 .OrderByDescending(a => a.Value<DateTime>("articleDate")).Take(10);
 
             if (loop == true)
             {
-                foreach (var item in test)
+                foreach (var item in results)
                 {
 
                 }
             }
+
+            return results;
         }
 
-        public void LatestTypedExamine(bool loop = false)
+        public IEnumerable<IPublishedContent> GetLatestTypedExamine(bool loop = false)
         {
             if (ExamineManager.Instance.TryGetIndex("ExternalIndex", out var index))
             {
                 var searcher = index.GetSearcher();
-                var test = searcher.CreateQuery().NodeTypeAlias("article")
+                var results = searcher.CreateQuery().NodeTypeAlias("article")
                     .OrderByDescending(new SortableField("articleDate", SortType.Long))
                     .Execute().Take(10);
 
                 var items = new List<IPublishedContent>();
-                foreach (var item in test)
+                foreach (var item in results)
                 {
                     items.Add(_umbracoContextAccessor.UmbracoContext.Content.GetById(false, int.Parse(item.Id)));
                 }
+
+                return items;
             }
+
+            return Enumerable.Empty<IPublishedContent>();
         }
 
 
 
-        public void GetLatestPureExamine(bool loop = false)
+        public IEnumerable<ISearchResult> GetLatestPureExamine(bool loop = false)
         {
             if (ExamineManager.Instance.TryGetIndex("ExternalIndex", out var index))
             {
                 var searcher = index.GetSearcher();
-                var test = searcher.CreateQuery().NodeTypeAlias("article")
+                var results = searcher.CreateQuery().NodeTypeAlias("article")
                     .OrderByDescending(new SortableField("articleDate", SortType.Long))
                     .Execute().Take(10);
 
                 if (loop == true)
                 {
-                    foreach (var item in test)
+                    foreach (var item in results)
                     {
 
                     }
                 }
+
+                return results;
             }
+
+            return Enumerable.Empty<ISearchResult>();
         }
 
         #endregion
 
         #region searches
 
-        public void GetSearchLinq(bool loop = false)
+        public IEnumerable<IPublishedContent> GetSearchLinq(bool loop = false)
         {
-            var test = _umbracoContextAccessor.UmbracoContext.Content.GetAtRoot().FirstOrDefault()
-                .DescendantsOrSelf()
-                .Where(a => a.ContentType.Alias == "article" && a.Name.Contains("Popular Blogs"))
+            var results = _umbracoContextAccessor.UmbracoContext.Content.GetAtRoot().FirstOrDefault()
+                .DescendantsOrSelfOfType("article")
+                .Where(a => a.Name.IndexOf("Popular blogs") > -1)
                 .OrderByDescending(a => a.Value<DateTime>("articleDate")).Take(10);
 
             if (loop == true)
             {
-                foreach (var item in test)
+                foreach (var item in results)
                 {
 
                 }
             }
+
+            return results;
         }
 
-        public void GetSearchXsltGreedy(bool loop = false)
+        public IEnumerable<IPublishedContent> GetSearchXPathGreedy(bool loop = false)
         {
-            var test = _umbracoContextAccessor.UmbracoContext.Content
-                .GetByXPath("//article [@isDoc  and contains(@nodeName, 'Popular Blogs')]")
+            var results = _umbracoContextAccessor.UmbracoContext.Content
+                .GetByXPath("//article [@isDoc and contains(@nodeName, 'Popular blogs')]")
                 .OrderByDescending(a => a.Value<DateTime>("articleDate")).Take(10);
 
             if (loop == true)
             {
-                foreach (var item in test)
+                foreach (var item in results)
                 {
 
                 }
             }
+
+            return results;
         }
 
-        public void GetSearchXsltEfficient(bool loop = false)
+        public IEnumerable<IPublishedContent> GetSearchXPathEfficient(bool loop = false)
         {
-            var test = _umbracoContextAccessor.UmbracoContext.Content
-                .GetByXPath("root/home/articleList/article [@isDoc  and contains(@nodeName, 'Popular Blogs')]")
+            var results = _umbracoContextAccessor.UmbracoContext.Content
+                .GetByXPath("root/home/articleList/article [@isDoc and contains(@nodeName, 'Popular blogs')]")
                 .OrderByDescending(a => a.Value<DateTime>("articleDate")).Take(10);
 
             if (loop == true)
             {
-                foreach (var item in test)
+                foreach (var item in results)
                 {
 
                 }
             }
+
+            return results;
         }
 
-        public void GetSearchTypedExamine(bool loop = false)
+        public IEnumerable<IPublishedContent> GetSearchTypedExamine(bool loop = false)
         {
             if (ExamineManager.Instance.TryGetIndex("ExternalIndex", out var index))
             {
                 var searcher = index.GetSearcher();
-                var test = searcher.CreateQuery().NodeTypeAlias("article")
-                    .And().Field("nodeName", "Popular Blogs")
+                var results = searcher.CreateQuery().NodeTypeAlias("article")
+                    .And().Field("nodeName", "Popular blogs")
                     .OrderByDescending(new SortableField("articleDate", SortType.Long))
                     .Execute().Take(10);
 
                 var items = new List<IPublishedContent>();
-                foreach (var item in test)
+                foreach (var item in results)
                 {
                     items.Add(_umbracoContextAccessor.UmbracoContext.Content.GetById(false, int.Parse(item.Id)));
                 }
+
+                return items;
             }
+
+            return Enumerable.Empty<IPublishedContent>();
         }
 
-        public void GetSearchPureExamine(bool loop = false)
+        public IEnumerable<ISearchResult> GetSearchPureExamine(bool loop = false)
         {
             if (ExamineManager.Instance.TryGetIndex("ExternalIndex", out var index))
             {
                 var searcher = index.GetSearcher();
-                var test = searcher.CreateQuery().NodeTypeAlias("article")
-                    .And().Field("nodeName", "Popular Blogs")
+                var results = searcher.CreateQuery().NodeTypeAlias("article")
+                    .And().Field("nodeName", "Popular blogs")
                     .OrderByDescending(new SortableField("articleDate", SortType.Long))
                     .Execute().Take(10);
 
                 if (loop == true)
                 {
-                    foreach (var item in test)
+                    foreach (var item in results)
                     {
 
                     }
                 }
+
+                return results;
             }
+
+            return Enumerable.Empty<ISearchResult>();
         }
-        
+
         #endregion
     }
 }
