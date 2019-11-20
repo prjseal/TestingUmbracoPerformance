@@ -2,7 +2,9 @@
 using Examine.Search;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using TUP.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.Services;
 using Umbraco.Examine;
@@ -21,6 +23,75 @@ namespace TUP.Core.Services
         {
             _umbracoContextAccessor = umbracoContextAccessor;
             _contentService = contentService;
+        }
+
+        public List<TestResult> GetAllTestResults(int iterations = 1, bool loop = false)
+        {
+            List<TestResult> testResults = new List<TestResult>();
+
+            testResults.Add(new TestResult(QueryMethod.Linq, QueryType.All, 
+                GetSetOfTimes(() => GetAllLinq(loop), iterations), loop));
+
+            testResults.Add(new TestResult(QueryMethod.XPathGreedy, QueryType.All,
+                GetSetOfTimes(() => GetAllXPathGreedy(loop), iterations), loop));
+
+            testResults.Add(new TestResult(QueryMethod.XPathEfficient, QueryType.All,
+                GetSetOfTimes(() => GetAllXPathEfficient(loop), iterations), loop));
+
+            testResults.Add(new TestResult(QueryMethod.ExaminePure, QueryType.All,
+                GetSetOfTimes(() => GetAllPureExamine(loop), iterations), loop));
+
+            testResults.Add(new TestResult(QueryMethod.ExamineTyped, QueryType.All,
+                GetSetOfTimes(() => GetAllTypedExamine(loop), iterations), loop));
+
+            testResults.Add(new TestResult(QueryMethod.Linq, QueryType.Latest,
+                GetSetOfTimes(() => GetLatestLinq(loop), iterations), loop));
+
+            testResults.Add(new TestResult(QueryMethod.XPathGreedy, QueryType.Latest,
+                GetSetOfTimes(() => GetLatestXPathGreedy(loop), iterations), loop));
+
+            testResults.Add(new TestResult(QueryMethod.XPathEfficient, QueryType.Latest,
+                GetSetOfTimes(() => GetLatestXPathEfficient(loop), iterations), loop));
+
+            testResults.Add(new TestResult(QueryMethod.ExaminePure, QueryType.Latest,
+                GetSetOfTimes(() => GetLatestPureExamine(loop), iterations), loop));
+
+            testResults.Add(new TestResult(QueryMethod.ExamineTyped, QueryType.Latest,
+                GetSetOfTimes(() => GetLatestTypedExamine(loop), iterations), loop));
+
+            testResults.Add(new TestResult(QueryMethod.Linq, QueryType.Search,
+                GetSetOfTimes(() => GetSearchLinq(loop), iterations), loop));
+
+            testResults.Add(new TestResult(QueryMethod.XPathGreedy, QueryType.Search,
+                GetSetOfTimes(() => GetSearchXPathGreedy(loop), iterations), loop));
+
+            testResults.Add(new TestResult(QueryMethod.XPathEfficient, QueryType.Search,
+                GetSetOfTimes(() => GetSearchXPathEfficient(loop), iterations), loop));
+
+            testResults.Add(new TestResult(QueryMethod.ExaminePure, QueryType.Search,
+                GetSetOfTimes(() => GetSearchPureExamine(loop), iterations), loop));
+
+            testResults.Add(new TestResult(QueryMethod.ExamineTyped, QueryType.Search,
+                GetSetOfTimes(() => GetSearchTypedExamine(loop), iterations), loop));
+
+
+
+            return testResults;
+        }
+
+        public List<double> GetSetOfTimes(Action action, int iterations)
+        {
+            var times = new List<double>();
+            for (var i = 0; i < iterations; i++) times.Add(GetTime(action));
+            return times;
+        }
+
+        public double GetTime(Action action)
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            action();
+            return stopwatch.Elapsed.TotalMilliseconds;
         }
 
         public IEnumerable<IPublishedContent> GetAllLinq(bool loop = false)

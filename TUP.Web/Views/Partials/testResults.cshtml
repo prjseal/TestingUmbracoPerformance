@@ -1,0 +1,39 @@
+﻿@using TUP.Core
+@using TUP.Core.Models
+@inherits UmbracoViewPage<List<TUP.Core.Models.TestResult>>
+
+@if (Model != null && Model.Any())
+{
+<table class="blueTable">
+    <thead>
+        <tr>
+            <th>&nbsp;</th>
+            @foreach (var item in Model.Where(x => x.Type == QueryType.All))
+            {
+                <th>@item.Method</th>
+            }
+        </tr>
+    </thead>
+    <tr>
+        @RenderResultsForEachMethod("All", Model.Where(x => x.Type == QueryType.All).ToList())
+    </tr>
+    <tr>
+        @RenderResultsForEachMethod("Latest", Model.Where(x => x.Type == QueryType.Latest).ToList())
+    </tr>
+    <tr>
+        @RenderResultsForEachMethod("Search", Model.Where(x => x.Type == QueryType.Search).ToList())
+    </tr>
+</table>
+}
+
+@helper RenderResultsForEachMethod(string title, List<TestResult> results)
+{
+    <td>@title</td>
+
+    var allMin = results.Min(x => x.AverageTime);
+    var allMax = results.Max(x => x.AverageTime);
+    foreach (var item in results)
+    {
+        <td class="@(item.AverageTime == allMin ? "min" : item.AverageTime == allMax ? "max" : null)">@item.AverageTime.ToString("F4")</td>
+    }
+}

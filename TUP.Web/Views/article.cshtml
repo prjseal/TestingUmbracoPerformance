@@ -1,5 +1,4 @@
 ﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage<Article>
-
 @using Clean.Core.ViewModels
 @using Clean.Core.Extensions
 @using Umbraco.Core.Composing
@@ -7,24 +6,29 @@
 @{
     Layout = "master.cshtml";
 }
-
-<h1>Custom Import Code</h1>
-
+@*<h1>Custom Import Code</h1>*@
 @*@{
-    var contentService = Current.Services.ContentService;
-    for (var i = 0; i < 1; i++)
-    {
-        var children = contentService.GetPagedChildren(1095, 0, 10000, out var totalRecords);
-        foreach (var child in children)
+        var contentService = Current.Services.ContentService;
+        for (var i = 0; i < 1; i++)
         {
-            var copiedChild = contentService.Copy(child, 1095, false);
-            contentService.SaveAndPublish(copiedChild);
+            var children = contentService.GetPagedChildren(1095, 0, 10000, out var totalRecords);
+            foreach (var child in children)
+            {
+                var copiedChild = contentService.Copy(child, 1095, false);
+                contentService.SaveAndPublish(copiedChild);
+            }
         }
-    }
-}*@
+    }*@
+@*@Html.Partial("~/Views/Partials/pageHeader.cshtml", new PageHeaderViewModel(Model.Name, Model.Title, Model.Subtitle, Model.MainImage, Model.AuthorName, Model.ArticleDate))
 
-@Html.Partial("~/Views/Partials/pageHeader.cshtml", new PageHeaderViewModel(Model.Name, Model.Title, Model.Subtitle, Model.MainImage, Model.AuthorName, Model.ArticleDate))
+    <article>
+        @Html.GetGridHtml(Model, "mainContent", "Clean", fluidImages: true)
+    </article>*@
 
-<article>
-    @Html.GetGridHtml(Model, "mainContent", "Clean", fluidImages: true)
-</article>
+<div class="container">
+    <h2>Without Looping</h2>
+    @Html.Action("RunAllTests", "Benchmark", new { iterations = 50, loop = false })
+
+    <h2>With Looping</h2>
+    @Html.Action("RunAllTests", "Benchmark", new { iterations = 50, loop = true })
+</div>

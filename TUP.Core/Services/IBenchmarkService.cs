@@ -1,15 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Examine;
+using System.Collections.Generic;
+using TUP.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
 
 namespace TUP.Core.Services
 {
     public interface IBenchmarkService
     {
+        List<TestResult> GetAllTestResults(int iterations = 1, bool loop = false);
+
+        double GetTime(Action action);
+
         #region all posts
 
         IEnumerable<IPublishedContent> GetAllLinq(bool loop = false);

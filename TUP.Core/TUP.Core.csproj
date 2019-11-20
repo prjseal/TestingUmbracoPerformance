@@ -236,6 +236,8 @@
     <Compile Include="Controllers\BenchmarkController.cs" />
     <Compile Include="Composing\IndexerComponent.cs" />
     <Compile Include="Composing\RegisterServicesComposer.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="Models\TestResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ArticleService.cs" />
     <Compile Include="Services\BenchmarkService.cs" />

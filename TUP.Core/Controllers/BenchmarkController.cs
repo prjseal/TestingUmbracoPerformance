@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Web.Mvc;
+using System.Web.UI.WebControls.WebParts;
+using TUP.Core.Models;
 using TUP.Core.Services;
 using Umbraco.Web.Mvc;
 
@@ -21,35 +24,35 @@ namespace TUP.Core.Controllers
         {
             var result = GetTime(() => _benchmarkService.GetAllLinq(loop));
 
-            return Content(result);
+            return Content(result.ToString("F4"));
         }
 
         public ActionResult AllXPathGreedy(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetAllXPathGreedy(loop));
 
-            return Content(result);
+            return Content(result.ToString("F4"));
         }
 
         public ActionResult AllXPathEfficient(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetAllXPathEfficient(loop));
 
-            return Content(result);
+            return Content(result.ToString("F4"));
         }
 
         public ActionResult AllTypedExamine(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetAllTypedExamine(loop));
 
-            return Content(result);
+            return Content(result.ToString("F4"));
         }
 
         public ActionResult AllPureExamine(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetAllPureExamine(loop));
 
-            return Content(result);
+            return Content(result.ToString("F4"));
         }
 
         #endregion
@@ -60,35 +63,35 @@ namespace TUP.Core.Controllers
         {
             var result = GetTime(() => _benchmarkService.GetLatestLinq(loop));
 
-            return Content(result);
+            return Content(result.ToString("F4"));
         }
 
         public ActionResult LatestXPathGreedy(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetLatestXPathGreedy(loop));
 
-            return Content(result);
+            return Content(result.ToString("F4"));
         }
 
         public ActionResult LatestXPathEfficient(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetLatestXPathEfficient(loop));
 
-            return Content(result);
+            return Content(result.ToString("F4"));
         }
 
         public ActionResult LatestTypedExamine(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetLatestTypedExamine(loop));
 
-            return Content(result);
+            return Content(result.ToString("F4"));
         }
 
         public ActionResult LatestPureExamine(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetLatestPureExamine(loop));
 
-            return Content(result);
+            return Content(result.ToString("F4"));
         }
 
         #endregion
@@ -99,55 +102,52 @@ namespace TUP.Core.Controllers
         {
             var result = GetTime(() => _benchmarkService.GetSearchLinq(loop));
 
-            return Content(result);
+            return Content(result.ToString("F4"));
         }
 
         public ActionResult SearchXPathGreedy(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetSearchXPathGreedy(loop));
 
-            return Content(result);
+            return Content(result.ToString("F4"));
         }
 
         public ActionResult SearchXPathEfficient(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetSearchXPathEfficient(loop));
 
-            return Content(result);
+            return Content(result.ToString("F4"));
         }
 
         public ActionResult SearchTypedExamine(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetSearchTypedExamine(loop));
 
-            return Content(result);
+            return Content(result.ToString("F4"));
         }
 
         public ActionResult SearchPureExamine(bool loop = false)
         {
             var result = GetTime(() => _benchmarkService.GetSearchPureExamine(loop));
 
-            return Content(result);
+            return Content(result.ToString("F4"));
+        }
+
+        public ActionResult RunAllTests(int iterations = 1, bool loop = false)
+        {
+            var testResults = _benchmarkService.GetAllTestResults(iterations, loop);
+
+            return PartialView("~/Views/Partials/testResults.cshtml", testResults);
         }
 
         #endregion
 
-        private string GetTime(Action action)
+        private double GetTime(Action action)
         {
-            double total = 0;
-            int iterations = 100;
-
-            for (int i = 0; i < iterations; i++)
-            {
-                var stopwatch = new Stopwatch();
-                stopwatch.Start();
-
-                action();
-
-                total += stopwatch.Elapsed.TotalMilliseconds;
-            }
-
-            return (total / iterations).ToString("F4");
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            action();
+            return stopwatch.Elapsed.TotalMilliseconds;
         }
 
         //public ActionResult AllChildrenFromNode(bool loop = false)

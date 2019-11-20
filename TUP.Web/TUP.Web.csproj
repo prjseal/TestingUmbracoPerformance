@@ -497,6 +497,7 @@
     <Content Include="Views\Partials\xmlSitemap.cshtml" />
     <Content Include="Views\search.cshtml" />
     <Content Include="Views\xMLSitemap.cshtml" />
+    <Content Include="Views\Partials\testResults.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
