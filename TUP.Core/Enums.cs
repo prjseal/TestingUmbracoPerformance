@@ -2,11 +2,13 @@
 {
     public enum QueryMethod
     {
-        Linq = 0,
-        XPathGreedy = 1,
-        XPathEfficient = 2,
-        ExaminePure = 3,
-        ExamineTyped = 4,
+        DescendantsOfType = 0,
+        ChildrenOfId = 2,
+        ChildrenOfType = 3,
+        XPathGreedy = 4,
+        XPathEfficient = 5,
+        ExaminePure = 6,
+        ExamineTyped = 7,
     }
 
     public enum QueryType
@@ -14,6 +16,7 @@
         All = 0,
         Latest = 1,
         Search = 2,
-        Page = 3
+        LatestPage = 3,
+        SearchPage = 4,
     }
 }

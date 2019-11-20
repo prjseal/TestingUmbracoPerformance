@@ -15,13 +15,19 @@
         </tr>
     </thead>
     <tr>
-        @RenderResultsForEachMethod("All", Model.Where(x => x.Type == QueryType.All).ToList())
+        @RenderResultsForEachMethod("All Articles", Model.Where(x => x.Type == QueryType.All).ToList())
     </tr>
     <tr>
-        @RenderResultsForEachMethod("Latest", Model.Where(x => x.Type == QueryType.Latest).ToList())
+        @RenderResultsForEachMethod("Latest Page 1", Model.Where(x => x.Type == QueryType.Latest).ToList())
     </tr>
     <tr>
-        @RenderResultsForEachMethod("Search", Model.Where(x => x.Type == QueryType.Search).ToList())
+        @RenderResultsForEachMethod("Latest Page 5", Model.Where(x => x.Type == QueryType.LatestPage).ToList())
+    </tr>
+    <tr>
+        @RenderResultsForEachMethod("Search Page 1", Model.Where(x => x.Type == QueryType.Search).ToList())
+    </tr>
+    <tr>
+        @RenderResultsForEachMethod("Search Page 5", Model.Where(x => x.Type == QueryType.SearchPage).ToList())
     </tr>
 </table>
 }
@@ -30,10 +36,10 @@
 {
     <td>@title</td>
 
-    var allMin = results.Min(x => x.AverageTime);
-    var allMax = results.Max(x => x.AverageTime);
-    foreach (var item in results)
+    var min = results.Min(x => x.AverageTime);
+    var max = results.Max(x => x.AverageTime);
+    foreach (var item in results.OrderBy(x => (int)x.Method))
     {
-        <td class="@(item.AverageTime == allMin ? "min" : item.AverageTime == allMax ? "max" : null)">@item.AverageTime.ToString("F4")</td>
+        <td class="@(item.AverageTime == min ? "min" : item.AverageTime == max ? "max" : null)">@item.AverageTime.ToString("F4")</td>
     }
 }

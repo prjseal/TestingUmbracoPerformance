@@ -27,8 +27,8 @@
 
 <div class="container">
     <h2>Without Looping</h2>
-    @Html.Action("RunAllTests", "Benchmark", new { iterations = 50, loop = false })
+    @Html.Action("RunAllTests", "Benchmark", new { iterations = 100, loop = false })
 
     <h2>With Looping</h2>
-    @Html.Action("RunAllTests", "Benchmark", new { iterations = 50, loop = true })
+    @Html.Action("RunAllTests", "Benchmark", new { iterations = 100, loop = true })
 </div>
