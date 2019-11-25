@@ -140,6 +140,13 @@ namespace TUP.Core.Controllers
             return PartialView("~/Views/Partials/testResults.cshtml", testResults);
         }
 
+        public ActionResult RunAllTestsCached(int iterations = 1, bool loop = false)
+        {
+            var testResults = _benchmarkService.GetAllTestResultsCached(iterations, loop);
+
+            return PartialView("~/Views/Partials/testResults.cshtml", testResults);
+        }
+
         #endregion
 
         private double GetTime(Action action)

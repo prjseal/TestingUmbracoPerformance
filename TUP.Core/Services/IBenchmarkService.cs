@@ -10,7 +10,13 @@ namespace TUP.Core.Services
     {
         List<TestResult> GetAllTestResults(int iterations = 1, bool loop = false);
 
+        List<TestResult> GetAllTestResultsCached(int iterations = 1, bool loop = false);
+
         double GetTime(Action action);
+
+        IEnumerable<IPublishedContent> GetCachedResult(string cacheKey, Func<IEnumerable<IPublishedContent>> function);
+
+        IEnumerable<ISearchResult> GetCachedResult(string cacheKey, Func<IEnumerable<ISearchResult>> function);
 
         IEnumerable<IPublishedContent> GetAllLinq(bool loop = false);
         IEnumerable<IPublishedContent> GetLatestLinq(bool loop = false);
