@@ -11,10 +11,10 @@
         var contentService = Current.Services.ContentService;
         for (var i = 0; i < 1; i++)
         {
-            var children = contentService.GetPagedChildren(1095, 0, 10000, out var totalRecords);
+            var children = contentService.GetPagedChildren(1086, 0, 904, out var totalRecords);
             foreach (var child in children)
             {
-                var copiedChild = contentService.Copy(child, 1095, false);
+                var copiedChild = contentService.Copy(child, 1086, false);
                 contentService.SaveAndPublish(copiedChild);
             }
         }
@@ -25,16 +25,16 @@
         @Html.GetGridHtml(Model, "mainContent", "Clean", fluidImages: true)
     </article>*@
 
-    <div class="container">
+<div class="container">
         <h2>Without Looping</h2>
-        @Html.Action("RunAllTests", "Benchmark", new { iterations = 5, loop = false })
+        @Html.Action("RunAllTests", "Benchmark", new { iterations = 1000, loop = false })
 
         <h2>Without Looping Cached</h2>
-        @Html.Action("RunAllTestsCached", "Benchmark", new { iterations = 5, loop = false })
+        @Html.Action("RunAllTestsCached", "Benchmark", new { iterations = 1000, loop = false })
 
         <h2>With Looping</h2>
-        @Html.Action("RunAllTests", "Benchmark", new { iterations = 5, loop = true })
+        @Html.Action("RunAllTests", "Benchmark", new { iterations = 1000, loop = true })
 
         <h2>With Looping Cached</h2>
-        @Html.Action("RunAllTestsCached", "Benchmark", new { iterations = 5, loop = true })
+        @Html.Action("RunAllTestsCached", "Benchmark", new { iterations = 1000, loop = true })
     </div>

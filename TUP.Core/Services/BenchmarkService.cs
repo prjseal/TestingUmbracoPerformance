@@ -365,7 +365,7 @@ namespace TUP.Core.Services
 
         public IEnumerable<IPublishedContent> GetAllChildrenOfId(bool loop = false)
         {
-            var results = _umbracoContextAccessor.UmbracoContext.Content.GetById(1095).Children;
+            var results = _umbracoContextAccessor.UmbracoContext.Content.GetById(1086).Children;
 
             if (loop == true)
             {
@@ -380,7 +380,7 @@ namespace TUP.Core.Services
 
         public IEnumerable<IPublishedContent> GetLatestChildrenOfId(bool loop = false)
         {
-            var results = _umbracoContextAccessor.UmbracoContext.Content.GetById(1095).Children
+            var results = _umbracoContextAccessor.UmbracoContext.Content.GetById(1086).Children
                 .OrderByDescending(a => a.Value<DateTime>("articleDate")).Take(10);
 
             if (loop == true)
@@ -396,7 +396,7 @@ namespace TUP.Core.Services
 
         public IEnumerable<IPublishedContent> GetSearchChildrenOfId(bool loop = false)
         {
-            var results = _umbracoContextAccessor.UmbracoContext.Content.GetById(1095).Children
+            var results = _umbracoContextAccessor.UmbracoContext.Content.GetById(1086).Children
                 .Where(a => a.Name.IndexOf("Popular blogs") > -1)
                 .OrderByDescending(a => a.Value<DateTime>("articleDate")).Take(10);
 
@@ -413,7 +413,7 @@ namespace TUP.Core.Services
 
         public IEnumerable<IPublishedContent> GetLatestPageChildrenOfId(bool loop = false)
         {
-            var results = _umbracoContextAccessor.UmbracoContext.Content.GetById(1095).Children
+            var results = _umbracoContextAccessor.UmbracoContext.Content.GetById(1086).Children
                 .OrderByDescending(a => a.Value<DateTime>("articleDate")).Skip(40).Take(10);
 
             if (loop == true)
@@ -429,7 +429,7 @@ namespace TUP.Core.Services
 
         public IEnumerable<IPublishedContent> GetSearchPageChildrenOfId(bool loop = false)
         {
-            var results = _umbracoContextAccessor.UmbracoContext.Content.GetById(1095).Children
+            var results = _umbracoContextAccessor.UmbracoContext.Content.GetById(1086).Children
                 .Where(a => a.Name.IndexOf("Popular blogs") > -1)
                 .OrderByDescending(a => a.Value<DateTime>("articleDate")).Skip(40).Take(10);
 

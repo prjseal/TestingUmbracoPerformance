@@ -243,12 +243,14 @@
     <Compile Include="Services\BenchmarkService.cs" />
     <Compile Include="Services\IArticleService.cs" />
     <Compile Include="Services\IBenchmarkService.cs" />
-    <Compile Include="Trees\FavouriteThingsTreeController.cs" />
     <Compile Include="ViewPages\TUPViewPage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Trees\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets" Condition="Exists('..\packages\Umbraco.SqlServerCE.4.0.0.1\build\Umbraco.SqlServerCE.targets')" />
